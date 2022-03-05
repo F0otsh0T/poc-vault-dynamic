@@ -22,21 +22,21 @@
 # ENABLE VAULT PKI SECRETS ENGINE
 #
 pki-enable:
-    vault secrets enable pki
-    vault secrets tune -max-lease-ttl=87600h pki
+	vault secrets enable pki
+	vault secrets tune -max-lease-ttl=87600h pki
 
 ##########
 # CREATE INTERNAL CA ROOT CERTIFICATE
 #
 pki-ca_root_create:
-    vault write -format=json pki/root/generate/internal common_name="y0y0dyn3.com" ttl=87600h | jq > workspace/tmp/ca_root.json
-    cat workspace/tmp/ca_root.json | jq -r '.data.certificate' > CA_cert.crt
+	vault write -format=json pki/root/generate/internal common_name="y0y0dyn3.com" ttl=87600h | jq > workspace/tmp/ca_root.json
+	cat workspace/tmp/ca_root.json | jq -r '.data.certificate' > CA_cert.crt
 
 ##########
 # CONFIGURE CA and CRL PUBLISH URLs (Substitute 127.0.0.1:8200 with your Vault Service URL)
 #
 pki-ca_crl:
-    vault write pki/config/urls issuing_certificates="http://127.0.0.1:8200/v1/pki/ca" crl_distribution_points="http://127.0.0.1:8200/v1/pki/crl"
+	vault write pki/config/urls issuing_certificates="http://127.0.0.1:8200/v1/pki/ca" crl_distribution_points="http://127.0.0.1:8200/v1/pki/crl"
 
 ##########
 #
@@ -49,7 +49,7 @@ pki-ca_crl:
 # DISABLE PKI ENGINE PKI
 #
 pki-disable:
-#    vault secrets disable pki
+#	vault secrets disable pki
 
 
 

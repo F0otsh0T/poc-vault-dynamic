@@ -22,7 +22,7 @@
 # CREATE VAULT POLICY FOR PKI_TEST
 #
 create_policy:
-    vault policy write pki_test policy/pki_test.hcl
+	vault policy write pki_test policy/pki_test.hcl
 
 ##########
 #

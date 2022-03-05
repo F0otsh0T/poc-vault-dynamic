@@ -22,9 +22,9 @@
 # CREATE AUTH TOKEN BASED ON SELECTED POLICY (ASSUMING POLICY CREATED IN PREVIOUS STEPS)
 #
 auth-token:
-    vault token create -policy=pki_test -format=json | jq > workspace/tmp/auth-token.json
-#    cat workspace/tmp/auth-token.json | jq -r '.auth.client_token' > workspace/tmp/auth-token
-    cat workspace/tmp/auth-token.json | jq -r '.auth.client_token' | pass insert -e vault/pki_test
+	vault token create -policy=pki_test -format=json | jq > workspace/tmp/auth-token.json
+#	cat workspace/tmp/auth-token.json | jq -r '.auth.client_token' > workspace/tmp/auth-token
+	cat workspace/tmp/auth-token.json | jq -r '.auth.client_token' | pass insert -e vault/pki_test
 
 ##########
 #
