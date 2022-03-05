@@ -1,0 +1,70 @@
+server {
+    listen       80;
+    listen  [::]:80;
+    ## Enable TLS and HTTP2
+    listen  443 ssl;
+    listen  [::]:443 ssl;
+    ## Set Certificate and Key Values
+    ## ssl_certificate /vault/secrets/server.bundle;
+    ssl_certificate /vault/secrets/server.certificate;
+    ssl_certificate_key /vault/secrets/server.private_key;
+    ## Define Protocols and Ciphers Supported
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers ECDH+AESGCM:ECDH+AES256:ECDH+AES128:DH+3DES:!ADH:!AECDH:!MD5;
+    ssl_prefer_server_ciphers on;
+    ## Optimize Session Cache
+    ssl_session_cache shared:SSL:40m;
+    ssl_session_timeout 4h;
+    ## Enable Session Tickets
+    ssl_session_tickets on;
+    ## mTLS Portion
+    ## ssl_client_certificate /vault/secrets/ca.certificate;
+    ssl_verify_client optional;
+    ssl_verify_depth 3;
+    server_name localhost
+    ## server_name test.y0y0dyn3.com;
+    ## Use Our Own DH Params
+#    ssl_dhparam /etc/nginx/conf.d/certsdhparam.pem;
+    ## Enable HSTS
+#    add_header Strict-Transport-Security "max-age=3153600" always;
+
+    #charset koi8-r;
+    #access_log  /var/log/nginx/host.access.log  main;
+
+    location / {
+        root   /usr/share/nginx/html;
+        index  index.html index.htm;
+    }
+
+    #error_page  404              /404.html;
+
+    # redirect server error pages to the static page /50x.html
+    #
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+
+    # proxy the PHP scripts to Apache listening on 127.0.0.1:80
+    #
+    #location ~ \.php$ {
+    #    proxy_pass   http://127.0.0.1;
+    #}
+
+    # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+    #
+    #location ~ \.php$ {
+    #    root           html;
+    #    fastcgi_pass   127.0.0.1:9000;
+    #    fastcgi_index  index.php;
+    #    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;
+    #    include        fastcgi_params;
+    #}
+
+    # deny access to .htaccess files, if Apache's document root
+    # concurs with nginx's one
+    #
+    #location ~ /\.ht {
+    #    deny  all;
+    #}
+}

@@ -1,0 +1,48 @@
+################################################################################
+# VAULT PKI CLI - PKI_INT REVOKE & TIDY INTERMEDIATE CERTIFICATE
+#
+# @file
+# @version 0.1
+#
+##########
+# PREREQUISITES
+#   - Docker
+#   - Kind
+#   - kubectl
+#   - Vault CLI
+#   - Terraform
+#   - make
+#   - jq
+#   - curl
+#   - PGP / pass
+#   - Vault PKI Engines, Auth, Policies, Certs, Roles, etc.,
+################################################################################
+
+##########
+# LIST CERTS
+#
+cert-list:
+	vault list -format=json pki_int/certs | jq
+
+##########
+# READ CERT
+#
+cert-read:
+	vault read -format=json pki_int/cert/$(shell cat workspace/tmp/server.serial_number) | jq
+
+##########
+# REVOKE INTERMEDIATE CERTIFICATE
+#
+cert-revoke:
+	touch cert-revoke.json
+	mv cert-revoke.json cert.revoke.json.$(shell date +"%Y%m%d-%H%M%S")
+	echo '{ "serial_number": "$(shell cat workspace/tmp/server.serial_number)" }' > cert-revoke.json
+	vault write pki_int/revoke serial_nubmer=$(shell cat workspace/tmp/server.serial_number) | jq > workspace/tmp/revoke.out
+
+##########
+# CERTIFICATE TIDY
+#
+cert-tidy:
+	vault write pki_int/tidy safety_buffer=5s tidy_cert_store=true tidy_revocation_list=true > workspace/tmp/tidy.out
+	curl -k --header "X-Vault-Token: $(shell pass vault/token)" --request POST --data @cert-tidy.json https://127.0.0.1:8200/v1/pki_int/tidy > workspace/tmp/tidy.out
+

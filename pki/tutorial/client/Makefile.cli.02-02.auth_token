@@ -1,0 +1,48 @@
+################################################################################
+# VAULT PKI CLI - AUTH METHOD
+#
+# @file
+# @version 0.1
+#
+##########
+# PREREQUISITES
+#   - Docker
+#   - Kind
+#   - kubectl
+#   - Vault CLI
+#   - Terraform
+#   - make
+#   - jq
+#   - curl
+#   - PGP / pass
+#   - Vault PKI Engines, Auth, Policies, Certs, Roles, etc.,
+################################################################################
+
+##########
+# CREATE AUTH TOKEN BASED ON SELECTED POLICY (ASSUMING POLICY CREATED IN PREVIOUS STEPS)
+#
+auth-token:
+    vault token create -policy=pki_test -format=json | jq > workspace/tmp/auth-token.json
+#    cat workspace/tmp/auth-token.json | jq -r '.auth.client_token' > workspace/tmp/auth-token
+    cat workspace/tmp/auth-token.json | jq -r '.auth.client_token' | pass insert -e vault/pki_test
+
+##########
+#
+#
+
+
+################################################################################
+
+##########
+# REVOKE AUTH TOKEN
+#
+auth-token-revoke:
+#    vault token revoke $(shell pass vault/pki_test)
+#    vault token revoke $(shell cat workspace/tmp/auth-token.json | jq -r '.auth.client_token')
+
+
+
+
+
+
+

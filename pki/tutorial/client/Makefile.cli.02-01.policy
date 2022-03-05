@@ -1,0 +1,45 @@
+################################################################################
+# VAULT PKI CLI - PKI ENGINE & ROOT CA
+#
+# @file
+# @version 0.1
+#
+##########
+# PREREQUISITES
+#   - Docker
+#   - Kind
+#   - kubectl
+#   - Vault CLI
+#   - Terraform
+#   - make
+#   - jq
+#   - curl
+#   - PGP / pass
+#   - Vault PKI Engines, Auth, Policies, Certs, Roles, etc.,
+################################################################################
+
+##########
+# CREATE VAULT POLICY FOR PKI_TEST
+#
+create_policy:
+    vault policy write pki_test pki_test.hcl
+
+##########
+#
+#
+
+
+################################################################################
+
+##########
+# DELETE VAULT POLICY
+#
+delete_policy:
+#    vault policy delete pki_test
+
+
+
+
+
+
+
