@@ -1,0 +1,65 @@
+################################################################################
+# VAULT INFRASTRUCTURE
+#
+# @file
+# @version 0.1
+#
+##########
+# PREREQUISITES
+#   - Docker
+#   - Kind
+#   - kubectl
+#   - Vault CLI
+#   - Terraform
+#   - make
+#   - jq
+#   - curl
+#   - PGP / pass
+#   - Vault PKI Engines, Auth, Policies, Certs, Roles, etc.,
+################################################################################
+
+##########
+# CLEANUP
+#
+vault-cleanup:
+    docker stop vault-dev
+    docker rm vault-dev
+
+##########
+# SETUP AND RUN VAULT DEV ENVIRONMENT - DEV MODE
+#
+vault-setup:
+    mkdir log
+    volume=$(pwd)
+#    docker run -d --name vault-dev -v ${volume}/log:/var/log --network dev-network -p 8200:8200 vault:1.9.3 server -dev -dev-root-token-id="root" &
+    docker run -d --name vault-dev -v ${volume}/log:/var/log -p 8200:8200 vault:1.9.3 server -dev -dev-root-token-id="root"
+
+##########
+# FORMAT INTERMEDIATE CERTIFICATE FOR CLIENT CONSUMPTION
+#
+cert-format:
+	touch tmp/server.bundle
+	cat tmp/intermediate.json | jq -r '.data.certificate' > tmp/server.certificate
+	cat tmp/intermediate.json | jq -r '.data.private_key' > tmp/server.private_key
+	cat tmp/intermediate.json | jq -r '.data.issuing_ca' > tmp/server.issuing_ca
+	cat tmp/intermediate.json | jq -r '.data.serial_number' > tmp/server.serial_number
+	cp tmp/server.bundle tmp/server.bundle.$(shell date +"%Y%m%d-%H%M%S").bak
+	cat tmp/server.certificate tmp/server.private_key tmp/server.issuing_ca > tmp/server.bundle
+#	cat tmp/server.certificate tmp/server.issuing_ca > tmp/server.bundle
+
+##########
+# REVOKE INTERMEDIATE CERTIFICATE
+#
+cert-revoke:
+	touch cert-revoke.json
+	mv cert-revoke.json cert.revoke.json.$(shell date +"%Y%m%d-%H%M%S")
+	echo '{ "serial_number": "$(shell cat tmp/server.serial_number)" }' > cert-revoke.json
+	vault write pki_int/revoke serial_nubmer=$(shell cat tmp/server.serial_number) > tmp/revoke.out
+
+##########
+# CERTIFICATE TIDY
+#
+cert-tidy:
+	vault write pki_int/tidy safety_buffer=5s tidy_cert_store=true tidy_revocation_list=true > tmp/tidy.out
+	curl -k --header "X-Vault-Token: $(shell pass vault/token)" --request POST --data @cert-tidy.json https://127.0.0.1:8200/v1/pki_int/tidy > tmp/tidy.out
+
