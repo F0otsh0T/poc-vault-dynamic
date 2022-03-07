@@ -35,7 +35,7 @@ cert-read:
 #
 cert-revoke:
 	touch cert-revoke.json
-	mv cert-revoke.json cert.revoke.json.$(shell date +"%Y%m%d-%H%M%S")
+	cp cert-revoke.json cert.revoke.json.$(shell date +"%Y%m%d-%H%M%S")
 	echo '{ "serial_number": "$(shell cat workspace/tmp/server.serial_number)" }' > cert-revoke.json
 	vault write pki_int/revoke serial_nubmer=$(shell cat workspace/tmp/server.serial_number) | jq > workspace/tmp/revoke.out
 
