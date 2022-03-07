@@ -42,8 +42,8 @@ cert-bundle:
 # BUILD CLIENT IMAGE
 #
 build:
-	docker build -t pkiclient:0.5 -f ./Dockerfile .
-	docker image tag pkiclient:0.5 pkiclient:latest
+	docker build -t pkiclient:0.6 -f ./Dockerfile .
+	docker image tag pkiclient:0.6 pkiclient:latest
 
 ##########
 # TEST CLIENT IMAGE

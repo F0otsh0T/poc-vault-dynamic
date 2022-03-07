@@ -24,9 +24,9 @@ RUN mkdir -p /tmp/stage/vault_pki_nginx && \
     mkdir -p /vault/secrets
 
 # COPY REPO
-COPY api/tmp/ /vault/secrets/
+COPY tmp /vault/secrets/
 #COPY config/ /vault/secrets
-COPY config/ /etc/nginx/conf.d/
+COPY config /etc/nginx/conf.d/
 
 
 # UPDATE / UPGRADE APT & INSTALL PREREQUISITE PACKAGES
