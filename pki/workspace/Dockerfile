@@ -25,6 +25,8 @@ RUN mkdir -p /tmp/stage/vault_pki_nginx && \
 
 # COPY REPO
 COPY tmp /vault/secrets/
+COPY files /files/
+COPY www /usr/share/nginx/html/
 #COPY config/ /vault/secrets
 COPY config /etc/nginx/conf.d/
 
@@ -94,6 +96,7 @@ RUN mv /usr/sbin/tcpdump /usr/bin/tcpdump && \
 RUN touch /vault/secrets/server.certificate && \
     touch /vault/secrets/server.private_key && \
     touch /vault/secrets/server.bundle && \
+    chmod 0644 //usr/share/nginx/html/yoyodyne* &&\
     chmod 0644 /etc/nginx/conf.d/default.conf &&\
     chmod 0600 /vault/secrets/server.certificate && \
     chmod 0600 /vault/secrets/server.private_key && \
