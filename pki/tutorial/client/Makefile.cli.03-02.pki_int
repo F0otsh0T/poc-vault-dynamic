@@ -43,7 +43,7 @@ pki_int-csr_sign:
 ##########
 # IMPORT & PUBLISH CA ROOT SIGNED INTERMEDIATE CERTIFICATE BACK INTO PKI_INT ENGINE
 #
-pki_int-cert-import:
+pki_int-cert_import:
 	vault write pki_int/intermediate/set-signed certificate=@workspace/tmp/pki_int.cert.pem
 
 ##########
