@@ -34,8 +34,9 @@ cert-format:
 	cat workspace/tmp/intermediate.json | jq -r '.data.issuing_ca' > workspace/tmp/server.issuing_ca
 	cat workspace/tmp/intermediate.json | jq -r '.data.serial_number' > workspace/tmp/server.serial_number
 	cp workspace/tmp/server.bundle workspace/tmp/server.bundle.$(shell date +"%Y%m%d-%H%M%S").bak
-	cat workspace/tmp/server.certificate workspace/tmp/server.private_key workspace/tmp/server.issuing_ca > workspace/tmp/server.bundle
+#	cat workspace/tmp/server.certificate workspace/tmp/server.private_key workspace/tmp/server.issuing_ca > workspace/tmp/server.bundle
 #	cat workspace/tmp/server.certificate workspace/tmp/server.issuing_ca > workspace/tmp/server.bundle
+	cat workspace/tmp/server.certificate workspace/tmp/server.issuing_ca workspace/tmp/ca_root.issuing_ca > workspace/tmp/server.bundle
 
 ##########
 # LIST CERTS
