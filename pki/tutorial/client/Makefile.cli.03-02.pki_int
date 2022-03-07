@@ -22,35 +22,35 @@
 # ENABLE PKI ENGINE - PKI_INT
 #
 pki_int-enable:
-    vault secrets enable -path=pki_int pki
-    vault secrets tune -max-lease-ttl=43800h pki_int
+	vault secrets enable -path=pki_int pki
+	vault secrets tune -max-lease-ttl=43800h pki_int
 
 ##########
 # GENERATE INTERMEDIATE CSR FROM PKI_INT ENGINE
 #
 pki_int-csr:
-    vault write -format=json pki_int/intermediate/generate/internal common_name="y0y0dyn3.com Intermediate Authority" | jq > workspace/tmp/pki_int.json
-    cat workspace/tmp/pki_int.json | jq -r '.data.csr' > workspace/tmp/pki_int.csr
-    cat workspace/tmp/pki_int.csr
+	vault write -format=json pki_int/intermediate/generate/internal common_name="y0y0dyn3.com Intermediate Authority" | jq > workspace/tmp/pki_int.json
+	cat workspace/tmp/pki_int.json | jq -r '.data.csr' > workspace/tmp/pki_int.csr
+	cat workspace/tmp/pki_int.csr
 
 ##########
 # SIGN INTERMEDIATE CSR WITH CA ROOT IN PKI ENGINE & OUTPUT INTERMEDIATE CA (PEM)
 #
 pki_int-csr_sign:
-    vault write -format=json pki/root/sign-intermediate csr=@workspace/tmp/pki_int.csr format=pem_bundle ttl="43800h" | jq > workspace/tmp/pki_int.cert.json
-    cat workspace/tmp/pki_int.cert.json | jq -r '.data.certificate' > workspace/tmp/pki_int.cert.pem
+	vault write -format=json pki/root/sign-intermediate csr=@workspace/tmp/pki_int.csr format=pem_bundle ttl="43800h" | jq > workspace/tmp/pki_int.cert.json
+	cat workspace/tmp/pki_int.cert.json | jq -r '.data.certificate' > workspace/tmp/pki_int.cert.pem
 
 ##########
 # IMPORT & PUBLISH CA ROOT SIGNED INTERMEDIATE CERTIFICATE BACK INTO PKI_INT ENGINE
 #
 pki_int-cert-import:
-    vault write pki_int/intermediate/set-signed certificate=@workspace/tmp/pki_int.cert.pem
+	vault write pki_int/intermediate/set-signed certificate=@workspace/tmp/pki_int.cert.pem
 
 ##########
 # CONFIGURE CA and CRL PUBLISH URLs (Substitute 127.0.0.1:8200 with your Vault Service URL)
 #
 pki_int-ca_crl:
-    vault write pki_int/config/urls issuing_certificates="http://127.0.0.1:8200/v1/pki_int/ca" crl_distribution_points="http://127.0.0.1:8200/v1/pki_int/crl"
+	vault write pki_int/config/urls issuing_certificates="http://127.0.0.1:8200/v1/pki_int/ca" crl_distribution_points="http://127.0.0.1:8200/v1/pki_int/crl"
 
 ################################################################################
 
@@ -82,4 +82,4 @@ cert-read:
 # DISABLE PKI ENGINE PKI_INT
 #
 pki_int-disable:
-#    vault secrets disable pki_int
+#	vault secrets disable pki_int

@@ -30,7 +30,10 @@ pki-enable:
 #
 pki-ca_root_create:
 	vault write -format=json pki/root/generate/internal common_name="y0y0dyn3.com" ttl=87600h | jq > workspace/tmp/ca_root.json
-	cat workspace/tmp/ca_root.json | jq -r '.data.certificate' > CA_cert.crt
+	cat workspace/tmp/ca_root.json | jq -r '.data.certificate' > workspace/tmp/CA_cert.crt
+	cat workspace/tmp/ca_root.json | jq -r '.data.certificate' > workspace/tmp/ca_root.certificate
+	cat workspace/tmp/ca_root.json | jq -r '.data.serial_number' > workspace/tmp/ca_root.serial_number
+	cat workspace/tmp/ca_root.json | jq -r '.data.issuing_ca' > workspace/tmp/ca_root.issuing_ca
 
 ##########
 # CONFIGURE CA and CRL PUBLISH URLs (Substitute 127.0.0.1:8200 with your Vault Service URL)
