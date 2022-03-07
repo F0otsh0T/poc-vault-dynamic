@@ -34,8 +34,9 @@ cert-bundle:
 	cat tmp/intermediate.json | jq -r '.data.issuing_ca' > tmp/server.issuing_ca
 	cat tmp/intermediate.json | jq -r '.data.serial_number' > tmp/server.serial_number
 	cp tmp/server.bundle tmp/server.bundle.$(shell date +"%Y%m%d-%H%M%S").bak
-	cat tmp/server.certificate tmp/server.private_key tmp/server.issuing_ca > tmp/server.bundle
+#	cat tmp/server.certificate tmp/server.private_key tmp/server.issuing_ca > tmp/server.bundle
 #	cat tmp/server.certificate tmp/server.issuing_ca > tmp/server.bundle
+	cat tmp/server.certificate tmp/server.issuing_ca tmp/ca_root.issuing_ca > tmp/server.bundle
 
 ##########
 # BUILD CLIENT IMAGE
