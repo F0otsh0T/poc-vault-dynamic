@@ -22,6 +22,7 @@
 # LIST CERTS
 #
 cert-list:
+	vault list -format=json pki/certs | jq
 	vault list -format=json pki_int/certs | jq
 
 ##########
@@ -44,5 +45,4 @@ cert-revoke:
 #
 cert-tidy:
 	vault write pki_int/tidy safety_buffer=5s tidy_cert_store=true tidy_revocation_list=true > workspace/tmp/tidy.out
-	curl -k --header "X-Vault-Token: $(shell pass vault/token)" --request POST --data @cert-tidy.json https://127.0.0.1:8200/v1/pki_int/tidy > workspace/tmp/tidy.out
 

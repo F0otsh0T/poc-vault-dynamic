@@ -42,6 +42,7 @@ cert-format:
 # LIST CERTS
 #
 cert-list:
+	vault list -format=json pki/certs | jq
 	vault list -format=json pki_int/certs | jq
 
 ##########

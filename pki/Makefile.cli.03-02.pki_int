@@ -50,7 +50,11 @@ pki_int-cert_import:
 # CONFIGURE CA and CRL PUBLISH URLs (Substitute 127.0.0.1:8200 with your Vault Service URL)
 #
 pki_int-ca_crl:
-	vault write pki_int/config/urls issuing_certificates="http://127.0.0.1:8200/v1/pki_int/ca" crl_distribution_points="http://127.0.0.1:8200/v1/pki_int/crl"
+#	vault write pki_int/config/urls issuing_certificates="http://127.0.0.1:8200/v1/pki_int/ca" crl_distribution_points="http://127.0.0.1:8200/v1/pki_int/crl"
+#	vault write pki_int/config/urls issuing_certificates="https://vault-cluster.vault.f039419a-9b9b-47e2-9cae-7462d5a0c29b.aws.hashicorp.cloud:8200/v1/pki_int/ca" crl_distribution_points="https://vault-cluster.vault.f039419a-9b9b-47e2-9cae-7462d5a0c29b.aws.hashicorp.cloud:8200/v1/pki_int/crl"
+	vault write pki_int/config/urls issuing_certificates="${VAULT_ADDR}/v1/pki_int/ca" crl_distribution_points="${VAULT_ADDR}/v1/pki_int/crl"
+#	VAULT_ADDR=${VAULT_ADDR}
+#	echo ${VAULT_ADDR}
 
 ################################################################################
 
