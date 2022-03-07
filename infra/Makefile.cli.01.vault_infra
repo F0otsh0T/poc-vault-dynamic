@@ -56,19 +56,4 @@ cert-format:
 	cat tmp/server.certificate tmp/server.private_key tmp/server.issuing_ca > tmp/server.bundle
 #	cat tmp/server.certificate tmp/server.issuing_ca > tmp/server.bundle
 
-##########
-# REVOKE INTERMEDIATE CERTIFICATE
-#
-cert-revoke:
-	touch cert-revoke.json
-	mv cert-revoke.json cert.revoke.json.$(shell date +"%Y%m%d-%H%M%S")
-	echo '{ "serial_number": "$(shell cat tmp/server.serial_number)" }' > cert-revoke.json
-	vault write pki_int/revoke serial_nubmer=$(shell cat tmp/server.serial_number) > tmp/revoke.out
-
-##########
-# CERTIFICATE TIDY
-#
-cert-tidy:
-	vault write pki_int/tidy safety_buffer=5s tidy_cert_store=true tidy_revocation_list=true > tmp/tidy.out
-	curl -k --header "X-Vault-Token: $(shell pass vault/token)" --request POST --data @cert-tidy.json https://127.0.0.1:8200/v1/pki_int/tidy > tmp/tidy.out
 
