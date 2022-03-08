@@ -16,7 +16,7 @@ We will be utilizing some Open Source Software (OSS) tools like ```make``` to ab
    - Vault PKI Engines, Auth, Policies, Certs, Roles, etc.,
 
 ## SHELL ENVIRONMENT
-Depending on your Vault Application (K8s, Docker, HCP), you will need to set your shell ```environment``` variables for the following (E.g. @ ```~/pki/env.sh```:
+Depending on your Vault Application (K8s, Docker, HCP), you will need to set your shell ```environment``` variables for the following (E.g. @ ```pki/env.sh```:
 
 ```
 #!/bin/sh
@@ -62,16 +62,16 @@ export VAULT_TOKEN=$(pass vault/local-token)
 
 ^^ Note: Just a little tidiness to keep the credentials from being stored in shell history
 
-Utilizing GPG/PGP/Pass to store and pass sensitive information throughout this demo. ```Makefiles``` will be utilized to organize and run the steps from the ```~/pki``` (most of the VAULT PKI activity) and ```~/pki/workspace``` (Docker Build & Run activity) directories. The above VAULT environment variables will be important to set properly for this demo to function.
+Utilizing ```GPG/PGP/Pass``` to store and pass sensitive information throughout this demo. ```Makefiles``` will be utilized to organize and run the steps from the ```pki``` (most of the VAULT PKI activity) and ```pki/workspace``` (Docker Build & Run activity) directories. The above VAULT environment variables will be important to set properly for this demo to function.
 
 ## VAULT
 
 You can spin up a Vault environment via a number of different ways:
 - Hashicorp Cloud Platform (HCP): https://learn.hashicorp.com/collections/vault/cloud
 - Install binaries: https://learn.hashicorp.com/tutorials/vault/getting-started-install?in=vault/getting-started
-- Docker: ```Makefile``` @ ```~/infra/Makefile.cli.01.vault_infra```
+- Docker: ```Makefile``` @ ```infra/Makefile.cli.01.vault_infra```
   ```
-  cd ~/infra
+  cd infra
   make -f Makefile.cli.01.vault_infra vault-setup
   
   ```
@@ -79,7 +79,7 @@ You can spin up a Vault environment via a number of different ways:
 ## OPTIONAL: CREATE POLICY
 
 ```
-cd ~/pki
+cd pki
 make -f Makefile.cli.02-01.policy create-policy
 vault policy list | jq
 
@@ -131,7 +131,7 @@ makefile -f Makefile.cli.04-01.intermediate-create cert-read
 - etc.,
 
 ```
-cd ~/pki/workspace
+cd pki/workspace
 make -f Makefile.docker_build build
 docker image ls | grep -i pkiclient
 
