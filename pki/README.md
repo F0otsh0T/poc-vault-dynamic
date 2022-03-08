@@ -155,7 +155,7 @@ docker ps | grep -i pkiclient
 Open up your web browser and open up the web page @:
 - https://127.0.0.1:9000
 - ``CN`` URL as declared in the Intermediate Certificate create process - you may need to create a host entry to point to the IP of where the Docker service for Nginx resides.
-
+- Import CA Cert as "TRUSTED" in your Web Browser
 
 
 
