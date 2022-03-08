@@ -1,7 +1,7 @@
 # VAULT SECRETS ENGINE: PKI
 
 ## INTRODUCTION
-We will be utilizing some Open Source Software (OSS) tools like make to abstract and organize the steps for this demo and  PGP/GPG/PASS to store and pass sensitive data like secrets ;-)
+We will be utilizing some Open Source Software (OSS) tools like ```make``` to abstract and organize the steps for this demo and ```PGP/GPG/PASS``` to store and pass sensitive data like secrets ;-)
 
 ## PREREQUISITES
    - Docker
@@ -60,7 +60,9 @@ export VAULT_ADDR=$(pass vault/local-url)
 export VAULT_TOKEN=$(pass vault/local-token)
 ```
 
-^^ Note: Utilizing GPG/PGP/Pass to store and pass sensitive information throughout this demo. ```Makefiles``` will be utilized to organize and run the steps from the ```~/pki``` (most of the VAULT PKI activity) and ```~/pki/workspace``` (Docker Build activity) directories. The above VAULT environment variables will be important to set properly for this demo to function.
+^^ Note: Just a little tidiness to keep the credentials from being stored in shell history
+
+Utilizing GPG/PGP/Pass to store and pass sensitive information throughout this demo. ```Makefiles``` will be utilized to organize and run the steps from the ```~/pki``` (most of the VAULT PKI activity) and ```~/pki/workspace``` (Docker Build activity) directories. The above VAULT environment variables will be important to set properly for this demo to function.
 
 ## VAULT
 

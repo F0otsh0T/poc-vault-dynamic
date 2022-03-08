@@ -14,9 +14,14 @@
 #   - make
 #   - jq
 #   - curl
-#   - PGP / pass
+#   - PGP/GPG/PASS
 #   - Vault PKI Engines, Auth, Policies, Certs, Roles, etc.,
 ################################################################################
+
+################################################################################
+# ALL
+################################################################################
+all: cert-create cert-format cert-list cert-read
 
 ##########
 # GENERATE INTERMEDIATE CERTIFICATE FOR ROLE CN
