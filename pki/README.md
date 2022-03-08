@@ -62,7 +62,7 @@ export VAULT_TOKEN=$(pass vault/local-token)
 
 ^^ Note: Just a little tidiness to keep the credentials from being stored in shell history
 
-Utilizing GPG/PGP/Pass to store and pass sensitive information throughout this demo. ```Makefiles``` will be utilized to organize and run the steps from the ```~/pki``` (most of the VAULT PKI activity) and ```~/pki/workspace``` (Docker Build activity) directories. The above VAULT environment variables will be important to set properly for this demo to function.
+Utilizing GPG/PGP/Pass to store and pass sensitive information throughout this demo. ```Makefiles``` will be utilized to organize and run the steps from the ```~/pki``` (most of the VAULT PKI activity) and ```~/pki/workspace``` (Docker Build & Run activity) directories. The above VAULT environment variables will be important to set properly for this demo to function.
 
 ## VAULT
 
