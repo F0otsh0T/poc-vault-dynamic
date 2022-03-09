@@ -1,7 +1,7 @@
 # VAULT SECRETS ENGINE: PKI
 
 ## INTRODUCTION
-We will be utilizing some Open Source Software (OSS) tools like ```make``` to abstract and organize the steps for this demo and ```PGP/GPG/PASS``` to store and pass sensitive data like secrets ;-)
+We will be utilizing some Open Source Software (OSS) tools like ```make``` to abstract and organize the steps for this demo and ```PGP/GPG/PASS``` to store and pass sensitive data like secrets ;-) This is an attempt to make this modular, consumable, and the Client codified and immutable.
 
 ## PREREQUISITES
    - Docker
