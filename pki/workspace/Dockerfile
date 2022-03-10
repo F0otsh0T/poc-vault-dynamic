@@ -29,39 +29,39 @@ COPY files /files/
 COPY www /usr/share/nginx/html/
 #COPY config/ /vault/secrets
 COPY config /etc/nginx/conf.d/
-COPY vault_${VAULT_VERSION}_linux_amd64.zip /tmp/
+#COPY vault_${VAULT_VERSION}_linux_amd64.zip /tmp/
 
 
 # UPDATE / UPGRADE APT & INSTALL PREREQUISITE PACKAGES
-RUN apt-get -y update && \
-    apt-get -y upgrade && \
-    apt-get -yq install \
-        software-properties-common \
-        apt-utils \
-        apt-transport-https \
-#        python \
-#        python3 \
-#        python3-pip \
-        curl \
-        ssh \
-        patch \
-        gnupg2 \
-        sudo \
-        software-properties-common \
-        vim \
-        bash \
-        ca-certificates \
-        unzip \
-        jq \
-        rr \
-        dnsutils \
-        inetutils-ping \
-        net-tools \
-        tcpdump \
-        netcat \
-        cron \
-	    expect \
-        wget
+#RUN apt-get -y update && \
+#    apt-get -y upgrade && \
+#    apt-get -yq install \
+#        software-properties-common \
+#        apt-utils \
+#        apt-transport-https \
+##        python \
+##        python3 \
+##        python3-pip \
+#        curl \
+#        ssh \
+#        patch \
+#        gnupg2 \
+#        sudo \
+#        software-properties-common \
+#        vim \
+#        bash \
+#        ca-certificates \
+#        unzip \
+#        jq \
+#        rr \
+#        dnsutils \
+#        inetutils-ping \
+#        net-tools \
+#        tcpdump \
+#        netcat \
+#        cron \
+#	    expect \
+#        wget
 
 # INSTALL PIP
 #RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
@@ -77,9 +77,9 @@ RUN apt-get -y update && \
 #RUN wget --quiet --output-document=/tmp/vault.zip https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_amd64.zip
 #RUN wget --quiet --output-document=/tmp/vault.zip https://releases.hashicorp.com/vault/1.4.2/vault_1.4.2_linux_amd64.zip
 ##RUN wget --quiet https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_amd64.zip
-RUN unzip -o /tmp/vault_${VAULT_VERSION}_linux_amd64.zip -d /vault && \
-    rm -f /tmp/vault.zip && \
-    chmod +x /vault
+#RUN unzip -o /tmp/vault_${VAULT_VERSION}_linux_amd64.zip -d /vault && \
+#    rm -f /tmp/vault.zip && \
+#    chmod +x /vault
 
 # UPDATE PATH
 ENV PATH="PATH=$PATH:$PWD/vault" https_proxy="" http_proxy=""
@@ -90,8 +90,8 @@ ENV PATH="PATH=$PATH:$PWD/vault" https_proxy="" http_proxy=""
 #ENTRYPOINT ["/bin/sh", "/files/keepalive.sh"]
 
 # IMPLEMENT TCPDUMP FIXES
-RUN mv /usr/sbin/tcpdump /usr/bin/tcpdump && \
-    ln -s /usr/bin/tcpdump /usr/sbin/tcpdump
+#RUN mv /usr/sbin/tcpdump /usr/bin/tcpdump && \
+#    ln -s /usr/bin/tcpdump /usr/sbin/tcpdump
 
 # EXECUTE VAULT PKI REQUEST
 RUN touch /vault/secrets/server.certificate && \

@@ -22,7 +22,7 @@
 ################################################################################
 # ALL
 ################################################################################
-all: build
+all: build terraform-apply #target
 
 ##########
 #
@@ -32,7 +32,7 @@ all: build
 ##########
 # CERT - BUNDLE
 #
-cert-bundle:
+cert-bundle: #target
 	cat tmp/intermediate.json | jq -r '.data.certificate' > tmp/server.certificate
 	cat tmp/intermediate.json | jq -r '.data.private_key' > tmp/server.private_key
 	cat tmp/intermediate.json | jq -r '.data.issuing_ca' > tmp/server.issuing_ca
@@ -45,14 +45,20 @@ cert-bundle:
 ##########
 # BUILD CLIENT IMAGE
 #
-build:
+build: #target
 	docker build -t pkiclient:0.13 -f ./Dockerfile .
 	docker image tag pkiclient:0.13 pkiclient:latest
 
 ##########
+# TERRAFORM APPLY
+#
+terraform-apply: #target
+	terraform apply -auto-approve
+
+##########
 # TEST CLIENT IMAGE
 #
-test:
+test: #target
 #    docker run -it -e VAULT_TOKEN=$(pass vault/pki_test) --privileged -p 9001:80 -p 9002:443 --name pkiclient pkiclient:0.1 bash
 	docker stop testnginx
 	docker rm testnginx
@@ -62,5 +68,5 @@ test:
 ##########
 # RUN CLIENT IMAGE
 #
-run:
+run: #target
 	docker run -d --privileged -p 9001:80 -p 9002:443 --name testnginx pkiclient:latest

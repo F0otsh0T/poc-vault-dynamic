@@ -27,7 +27,8 @@ all: cert-create cert-format cert-list cert-read #target
 # GENERATE INTERMEDIATE CERTIFICATE FOR ROLE CN
 #
 cert-create: #target
-	vault write pki_int/issue/y0y0dyn3-dot-com common_name="test.y0y0dyn3.com" ttl="24h" -format=json | jq > workspace/tmp/intermediate.json
+#	vault write pki_int/issue/y0y0dyn3-dot-com common_name="test.y0y0dyn3.com" ttl="24h" -format=json | jq > workspace/tmp/intermediate.json
+	vault write pki_int/issue/y0y0dyn3-dot-com common_name="test.y0y0dyn3.com" ttl="1h" -format=json | jq > workspace/tmp/intermediate.json
 
 ##########
 # FORMAT INTERMEDIATE CERTIFICATE FOR CLIENT CONSUMPTION
