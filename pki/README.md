@@ -59,8 +59,13 @@ set -o xtrace
 export VAULT_ADDR=$(pass vault/local-url)
 export VAULT_TOKEN=$(pass vault/local-token)
 ```
+```
+export VAULT_ADDR=$(pass vault/hcp-url)
+export VAULT_TOKEN=$(pass vault/hcp-token)
+export VAULT_NAMESPACE=admin
+```
 
-^^ Note: Just a little tidiness to keep the credentials from being stored in shell history
+^^ Note: ```GPG/PGP/Pass``` locations above depends on where you have stored your local Secrets - This is just a little tidiness to keep the credentials from being stored in shell history
 
 Utilizing ```GPG/PGP/Pass``` to store and pass sensitive information throughout this demo. ```Makefiles``` will be utilized to organize and run the steps from the ```pki``` (most of the VAULT PKI activity) and ```pki/workspace``` (Docker Build & Run activity) directories. The above VAULT environment variables will be important to set properly for this demo to function.
 
