@@ -26,13 +26,13 @@ all: cert-create cert-format cert-list cert-read
 ##########
 # GENERATE INTERMEDIATE CERTIFICATE
 #
-cert-create:
+cert-create: #target
 	curl -k --header "X-Vault-Token: $(shell pass vault/token)" --request POST --data @body/cert-create.json ${VAULT_ADDR}/v1/pki_int/issue/y0y0dyn3-dot-com > workspace/tmp/intermediate.json
 
 ##########
 # FORMAT INTERMEDIATE CERTIFICATE FOR CLIENT CONSUMPTION
 #
-cert-format:
+cert-format: #target
 	touch workspace/tmp/server.bundle
 	cat workspace/tmp/intermediate.json | jq -r '.data.certificate' > workspace/tmp/server.certificate
 	cat workspace/tmp/intermediate.json | jq -r '.data.private_key' > workspace/tmp/server.private_key
@@ -46,14 +46,14 @@ cert-format:
 ##########
 # LIST CERTS
 #
-cert-list:
+cert-list: #target
 	curl -k --header "X-Vault-Token: $(shell pass vault/token)" --request LIST ${VAULT_ADDR}/v1/pki/certs | jq
 	curl -k --header "X-Vault-Token: $(shell pass vault/token)" --request LIST ${VAULT_ADDR}/v1/pki_int/certs | jq
 
 ##########
 # READ CERT
 #
-cert-read:
+cert-read: #target
 	curl -k --header "X-Vault-Token: $(shell pass vault/token)" --request GET ${VAULT_ADDR}/v1/pki_int/cert/$(shell cat workspace/tmp/server.serial_number) | jq
 
 

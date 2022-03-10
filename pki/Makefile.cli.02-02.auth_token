@@ -21,12 +21,12 @@
 ################################################################################
 # ALL
 ################################################################################
-all: auth-token vault-login
+all: auth-token vault-login #target
 
 ##########
 # CREATE AUTH TOKEN BASED ON SELECTED POLICY (ASSUMING POLICY CREATED IN PREVIOUS STEPS)
 #
-auth-token:
+auth-token: #target
 	vault token create -policy=pki_test -display-name=token-pki_test -format=json | jq > workspace/tmp/auth-token.json
 #	cat workspace/tmp/auth-token.json | jq -r '.auth.client_token' > workspace/tmp/auth-token
 	cat workspace/tmp/auth-token.json | jq -r '.auth.client_token' | pass insert -e vault/pki_test
@@ -34,7 +34,7 @@ auth-token:
 ##########
 # LOGIN TO VAULT WITH NEWLY CREATED AUTH TOKEN
 #
-vault-login:
+vault-login: #target
 	vault login $(shell pass vault/pki_test)
 
 ################################################################################
@@ -42,7 +42,7 @@ vault-login:
 ##########
 # REVOKE AUTH TOKEN
 #
-auth-token-revoke:
+auth-token-revoke: #target
 #	vault token revoke $(shell pass vault/pki_test)
 	vault token revoke $(shell cat workspace/tmp/auth-token.json | jq -r '.auth.client_token')
 

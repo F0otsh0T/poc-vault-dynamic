@@ -21,19 +21,19 @@
 ################################################################################
 # ALL
 ################################################################################
-all: pki-enable pki-ca_root_create pki-ca_crl
+all: pki-enable pki-ca_root_create pki-ca_crl #target
 
 ##########
 # ENABLE VAULT PKI SECRETS ENGINE
 #
-pki-enable:
+pki-enable: #target
 	vault secrets enable pki
 	vault secrets tune -max-lease-ttl=87600h pki
 
 ##########
 # CREATE INTERNAL CA ROOT CERTIFICATE
 #
-pki-ca_root_create:
+pki-ca_root_create: #target
 	vault write -format=json pki/root/generate/internal common_name="y0y0dyn3.com" ttl=87600h | jq > workspace/tmp/ca_root.json
 	cat workspace/tmp/ca_root.json | jq -r '.data.certificate' > workspace/tmp/CA_cert.crt
 	cat workspace/tmp/ca_root.json | jq -r '.data.certificate' > workspace/tmp/ca_root.certificate
@@ -43,22 +43,30 @@ pki-ca_root_create:
 ##########
 # CONFIGURE CA and CRL PUBLISH URLs (Substitute 127.0.0.1:8200 with your Vault Service URL)
 #
-pki-ca_crl:
+pki-ca_crl: #target
 #	vault write pki/config/urls issuing_certificates="http://127.0.0.1:8200/v1/pki/ca" crl_distribution_points="http://127.0.0.1:8200/v1/pki/crl"
 #	vault write pki/config/urls issuing_certificates="https://vault-cluster.vault.f039419a-9b9b-47e2-9cae-7462d5a0c29b.aws.hashicorp.cloud:8200/v1/pki/ca" crl_distribution_points="https://vault-cluster.vault.f039419a-9b9b-47e2-9cae-7462d5a0c29b.aws.hashicorp.cloud:8200/v1/pki/crl"
 	vault write pki/config/urls issuing_certificates="${VAULT_ADDR}/v1/pki/ca" crl_distribution_points="${VAULT_ADDR}/v1/pki/crl"
 
 ##########
+# LIST CERTS
 #
-#
+cert-list: #target
+	vault list -format=json pki/certs | jq
+	vault list -format=json pki_int/certs | jq
 
+##########
+# READ CERT
+#
+cert-read: #target
+	vault read -format=json pki/cert/$(shell cat workspace/tmp/ca_root.serial_number) | jq
 
 ################################################################################
 
 ##########
 # DISABLE PKI ENGINE PKI
 #
-pki-disable:
+pki-disable: #target
 	vault secrets disable pki
 
 

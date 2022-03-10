@@ -21,18 +21,18 @@
 ################################################################################
 # ALL
 ################################################################################
-all: cert-create cert-format cert-list cert-read
+all: cert-create cert-format cert-list cert-read #target
 
 ##########
 # GENERATE INTERMEDIATE CERTIFICATE FOR ROLE CN
 #
-cert-create:
+cert-create: #target
 	vault write pki_int/issue/y0y0dyn3-dot-com common_name="test.y0y0dyn3.com" ttl="24h" -format=json | jq > workspace/tmp/intermediate.json
 
 ##########
 # FORMAT INTERMEDIATE CERTIFICATE FOR CLIENT CONSUMPTION
 #
-cert-format:
+cert-format: #target
 	touch workspace/tmp/server.bundle
 	cat workspace/tmp/intermediate.json | jq -r '.data.certificate' > workspace/tmp/server.certificate
 	cat workspace/tmp/intermediate.json | jq -r '.data.private_key' > workspace/tmp/server.private_key
@@ -46,14 +46,14 @@ cert-format:
 ##########
 # LIST CERTS
 #
-cert-list:
+cert-list: #target
 	vault list -format=json pki/certs | jq
 	vault list -format=json pki_int/certs | jq
 
 ##########
 # READ CERT
 #
-cert-read:
+cert-read: #target
 	vault read -format=json pki_int/cert/$(shell cat workspace/tmp/server.serial_number) | jq
 
 

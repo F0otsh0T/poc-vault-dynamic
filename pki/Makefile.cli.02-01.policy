@@ -21,12 +21,12 @@
 ################################################################################
 # ALL
 ################################################################################
-all: create-policy
+all: create-policy #target
 
 ##########
 # CREATE VAULT POLICY FOR PKI_TEST
 #
-create-policy:
+create-policy: #target
 	vault policy list
 	vault policy write pki_test policy/pki_test.hcl
 	vault policy list -format=json | jq
@@ -42,7 +42,7 @@ create-policy:
 # DELETE VAULT POLICY
 #
 delete-policy:
-#    vault policy delete pki_test
+    vault policy delete pki_test
 
 
 
