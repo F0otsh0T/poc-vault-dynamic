@@ -20,7 +20,7 @@
 ################################################################################
 # ALL
 ################################################################################
-all: cert-create cert-format cert-list cert-read
+all: cert-create cert-format cert-list cert-read #target
 
 
 ##########
