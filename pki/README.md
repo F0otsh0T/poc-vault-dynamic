@@ -114,10 +114,10 @@ make -f Makefile.cli.03-02.pki_int pki_int-role_create
 
 ## VAULT: CREATE INTERMEDIATE CERTIFICATE
 ```
-makefile -f Makefile.cli.04-01.intermediate-create cert-create
-makefile -f Makefile.cli.04-01.intermediate-create cert-format
-makefile -f Makefile.cli.04-01.intermediate-create cert-list
-makefile -f Makefile.cli.04-01.intermediate-create cert-read
+make -f Makefile.cli.04-01.intermediate-create cert-create
+make -f Makefile.cli.04-01.intermediate-create cert-format
+make -f Makefile.cli.04-01.intermediate-create cert-list
+make -f Makefile.cli.04-01.intermediate-create cert-read
 
 ```
 

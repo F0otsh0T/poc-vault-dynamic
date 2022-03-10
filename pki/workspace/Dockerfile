@@ -29,6 +29,7 @@ COPY files /files/
 COPY www /usr/share/nginx/html/
 #COPY config/ /vault/secrets
 COPY config /etc/nginx/conf.d/
+COPY vault_${VAULT_VERSION}_linux_amd64.zip /tmp/
 
 
 # UPDATE / UPGRADE APT & INSTALL PREREQUISITE PACKAGES
@@ -75,7 +76,7 @@ RUN apt-get -y update && \
 # DOWNLOAD & SETUP VAULT
 #RUN wget --quiet --output-document=/tmp/vault.zip https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_amd64.zip
 #RUN wget --quiet --output-document=/tmp/vault.zip https://releases.hashicorp.com/vault/1.4.2/vault_1.4.2_linux_amd64.zip
-RUN wget --quiet https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_amd64.zip
+##RUN wget --quiet https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_amd64.zip
 RUN unzip -o /tmp/vault_${VAULT_VERSION}_linux_amd64.zip -d /vault && \
     rm -f /tmp/vault.zip && \
     chmod +x /vault

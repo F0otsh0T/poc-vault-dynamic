@@ -8,6 +8,8 @@ set -o xtrace
 
 ## VAULT_TOKEN
 #export VAULT_TOKEN=''
+#export VAULT_TOKEN=$(pass vault/local-token)
+#export VAULT_TOKEN=$(pass vault/hcp-token)
 #unset VAULT_TOKEN
 
 ## VAULT_NAMESPACE: Vault Enterprise
@@ -16,6 +18,8 @@ set -o xtrace
 
 ## VAULT_ADDR
 #export VAULT_ADDR='https://:8200'
+#export VAULT_ADDR=$(pass vault/local-url)
+#export VAULT_ADDR=$(pass vault/hcp-url)
 #export VAULT_ADDR='https://CHANGE_ME.aws.hashicorp.cloud:8200'
 #export VAULT_ADDR='http://0.0.0.0:8200'
 #export VAULT_ADDR='https://0.0.0.0:8200'
