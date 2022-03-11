@@ -58,6 +58,7 @@ set -o xtrace
 ```
 export VAULT_ADDR=$(pass vault/local-url)
 export VAULT_TOKEN=$(pass vault/local-token)
+unset VAULT_NAMESPACE
 ```
 ```
 export VAULT_ADDR=$(pass vault/hcp-url)

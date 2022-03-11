@@ -75,13 +75,15 @@ pki_int-role_create: #target
 # LIST CERTS
 #
 cert-list: #target
+	vault list -format=json pki/certs | jq
 	vault list -format=json pki_int/certs | jq
 
 ##########
 # READ CERT
 #
 cert-read: #target
-	vault read -format=json pki_int/cert/$(shell cat workspace/tmp/server.serial_number) | jq
+	vault read -format=json pki/cert/$(shell cat workspace/tmp/pki_int.cert.csr) | jq
+	vault read -format=json pki/cert/$(shell cat workspace/tmp/pki_int.cert.pem) | jq
 
 
 

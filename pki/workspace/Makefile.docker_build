@@ -46,14 +46,32 @@ cert-bundle: #target
 # BUILD CLIENT IMAGE
 #
 build: #target
-	docker build -t pkiclient:0.13 -f ./Dockerfile .
-	docker image tag pkiclient:0.13 pkiclient:latest
+	docker build -t pkiclient:0.1 -f ./Dockerfile .
+	docker image tag pkiclient:0.1 pkiclient:latest
+
+##########
+# TERRAFORM INIT
+#
+terraform-init: #target
+	terraform init -auto-approve
+
+##########
+# TERRAFORM PLAN
+#
+terraform-apply: #target
+	terraform plan -auto-approve
 
 ##########
 # TERRAFORM APPLY
 #
 terraform-apply: #target
 	terraform apply -auto-approve
+
+##########
+# TERRAFORM REFRESH
+#
+terraform-refesh: #target
+	terraform refresh -auto-approve
 
 ##########
 # TEST CLIENT IMAGE

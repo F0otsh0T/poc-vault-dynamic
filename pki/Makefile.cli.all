@@ -23,5 +23,8 @@
 ################################################################################
 all: #target
 	make -f Makefile.cli.03-01.pki all
+	make -f Makefile.cli.03-01.pki cert-read
+	sleep 10
 	make -f Makefile.cli.03-02.pki_int all
+	sleep 10
 	make -f Makefile.cli.04-01.intermediate-create all
