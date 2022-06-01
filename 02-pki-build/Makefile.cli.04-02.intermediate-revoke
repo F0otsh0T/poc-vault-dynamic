@@ -1,0 +1,53 @@
+################################################################################
+# VAULT PKI CLI - PKI_INT REVOKE & TIDY INTERMEDIATE CERTIFICATE
+#
+# @file
+# @version 0.1
+#
+##########
+# PREREQUISITES
+#   - Docker
+#   - Kind
+#   - kubectl
+#   - Vault CLI
+#   - Terraform
+#   - make
+#   - jq
+#   - curl
+#   - PGP/GPG/PASS
+#   - Vault PKI Engines, Auth, Policies, Certs, Roles, etc.,
+################################################################################
+
+################################################################################
+# ALL
+################################################################################
+all: cert-revoke cert-tidy #target
+
+##########
+# LIST CERTS
+#
+cert-list: #target
+	vault list -format=json pki/certs | jq
+	vault list -format=json pki_int/certs | jq
+
+##########
+# READ CERT
+#
+cert-read: #target
+	vault read -format=json pki_int/cert/$(shell cat workspace/tmp/server.serial_number) | jq
+
+##########
+# REVOKE INTERMEDIATE CERTIFICATE
+#
+cert-revoke: #target
+	touch workspace/tmp/cert-revoke.json
+	cp workspace/tmp/cert-revoke.json workspace/tmp/cert.revoke.json.$(shell date +"%Y%m%d-%H%M%S")
+#	echo '{ "serial_number": "$(shell cat workspace/tmp/server.serial_number)" }' > workspace/tmp/cert-revoke.json
+	vault write -format=json pki_int/revoke serial_number=$(shell cat workspace/tmp/server.serial_number) | jq > workspace/tmp/revoke.out
+
+##########
+# CERTIFICATE TIDY
+#
+cert-tidy: #target
+	vault write -format=json pki_int/tidy safety_buffer=5s tidy_cert_store=true tidy_revocation_list=true | jq > workspace/tmp/tidy.out
+
