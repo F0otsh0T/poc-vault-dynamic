@@ -1,5 +1,0 @@
-{
-  "safety_buffer": "1h",
-  "tidy_cert_store": "true",
-  "tidy_revocation_list": "true"
-}
